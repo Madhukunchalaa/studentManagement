@@ -1,79 +1,60 @@
-const { application } = require('express')
-const student=require('../models/student')
-const bcrypt=require('bcrypt')
-const jwt=require('jsonwebtoken')
+const student = require('../models/student');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
+const JWT_SECRET = "your_jwt_secret_key"; // Use process.env.JWT_SECRET in production
 
-const register= async(req,res)=>{
-    try{
+const register = async (req, res) => {
+  try {
+    const { name, email, password, hallticketNo, branch } = req.body;
 
-        const{name,password,email,hallticketNo,branch}=req.body
-        
-        const existingStudent = await student.findOne({email})
-        if(existingStudent){
-            return res.json({
-                msg:"student email already registered"
-            })}
-            const hasshedPassword= await bcrypt.hash(password,10)
-            
-            const newStudent= new student({
-                name,
-                email,
-                password:hasshedPassword,
-                hallticketNo,
-                branch
-            })
-            await newStudent.save()
-            
-            return res.json({
-                msg:"registration success",
-                newStudent
-            })
-        }
-        catch(err){
-            res.json({
-                msg:"registreation failed",err
-            })
-
-        }
-    
-    
-
+    const studentExist = await student.findOne({ email });
+    if (studentExist) {
+      return res.status(400).json({ message: 'Email already exists' });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
 
-    const login=async(req,res)=>{
-        const{email,password}=req.body
+    const newStudent = new student({
+      name,
+      email,
+      password: hashedPassword,
+      hallticketNo,
+      branch
+    });
 
-        const isExisting=await student.findOne({email})
+    await newStudent.save();
 
-        if(!isExisting){
-            return res.json({
-              
-                msg:"is not registered"
-            })
-        }
-        const isPassword=await bcrypt.compare(password,isExisting.password)
+    res.status(201).json({ message: 'Registration successful' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
 
-        if(!isPassword){
-            return res.json({
-                msg:"password is invalid"
-            })
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-        }
-    const payload={
-        name:isExisting.name,
-        email:isExisting.email,
-        branch:isExisting.branch,
-        hallticketNo:isExisting.hallticketNo
-    }
-    const token=jwt.sign(payload,process.env.SCREAT_KEY,{expiresIn:'30d'})
-    return res.json({
-        msg:"login success for",
-        name:isExisting.name,
-        token:token
-    })
-
+    const existingStudent = await student.findOne({ email });
+    if (!existingStudent) {
+      return res.status(404).json({ message: 'Student not found' });
     }
 
-module.exports={register,login}
+    const passwordMatch = await bcrypt.compare(password, existingStudent.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign(
+      { id: existingStudent._id, email: existingStudent.email },
+      JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    res.json({ message: 'Login successful', token });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+module.exports = { register, login };

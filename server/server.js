@@ -3,11 +3,18 @@ const app=express()
 const dbConnection=require('./config/db')
 require('dotenv').config()
 const apiRotues=require('./routes/studentRoute')
-
+const cors=require('cors')
+app.use(cors({
+  origin: '*',  
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}))
 
 
 app.use(express.json())
+
 app.use('/user',apiRotues)
+
 
 dbConnection()
 
@@ -21,5 +28,5 @@ app.get('/',(req,res)=>{
 
 port=process.env.port
 app.listen(port,()=>{
-    console.log('server started running')
+    console.log('server started running',port)
 })
