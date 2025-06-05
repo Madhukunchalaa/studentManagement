@@ -4,6 +4,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Sidebar from './components/Sidebar';
+import PunchInOut from './components/PunchInOut';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Route path="/Sidebar" element={<Sidebar/>} /> 
       </Routes>
     </Router>
+    // <PunchInOut/>
+   
   );
 }
 

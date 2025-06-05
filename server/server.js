@@ -2,7 +2,7 @@ const express=require('express')
 const app=express()
 const dbConnection=require('./config/db')
 require('dotenv').config()
-const apiRotues=require('./routes/studentRoute')
+const apiRotues=require('./routes/employeeRoute')
 const cors=require('cors')
 app.use(cors({
   origin: '*',  

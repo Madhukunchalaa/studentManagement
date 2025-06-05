@@ -47,8 +47,8 @@ const Register = () => {
           name: '',
           email: '',
           password: '',
-          hallticketNo: '',
-          branch: ''
+          role: '',
+          otp: ''
         });
         
         // Redirect to login after successful registration
@@ -122,7 +122,7 @@ const Register = () => {
         
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="hallticketNo">
-            Hall Ticket Number
+            Role
           </label>
           <input
             type="text"
@@ -135,26 +135,7 @@ const Register = () => {
           />
         </div>
         
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="branch">
-            Branch
-          </label>
-          <select
-            id="branch"
-            name="branch"
-            value={formData.branch}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          >
-            <option value="">Select Branch</option>
-            <option value="CSE">Computer Science</option>
-            <option value="ECE">Electronics & Communication</option>
-            <option value="EEE">Electrical & Electronics</option>
-            <option value="MECH">Mechanical</option>
-            <option value="CIVIL">Civil</option>
-          </select>
-        </div>
+       
         
         <button
           type="submit"
@@ -163,6 +144,7 @@ const Register = () => {
         >
           {isLoading ? 'Registering...' : 'Register'}
         </button>
+         
         
         <div className="text-center">
           <p className="text-gray-600">

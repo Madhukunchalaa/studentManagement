@@ -5,6 +5,8 @@ import Attendance from './Attendence';
 import Course from './Course';
 import Events from './Events';
 import Welcome from './Welcome';
+import PunchInOut from './PunchInOut';
+
 
 // Mock Profile component for demonstration
 
@@ -24,7 +26,8 @@ export default function Sidebar() {
     { id: 'fees', label: 'Fees', icon: '💰' },
     { id: 'attendance', label: 'Attendance', icon: '📊' },
     { id: 'course', label: 'Course', icon: '📚' },
-    { id: 'events', label: 'Events', icon: '📅' }
+    { id: 'events', label: 'Events', icon: '📅' },
+    { id: 'punch', label: 'Punch', icon: '📅' }
   ];
 
   const renderContent = () => {
@@ -39,6 +42,9 @@ export default function Sidebar() {
         return <Course />;
       case 'events':
         return <Events />;
+
+      case 'punch':
+        return <PunchInOut/>
       default:
         return <Welcome />;
     }
@@ -49,8 +55,8 @@ export default function Sidebar() {
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg">
         <div className="px-6 py-4">
-          <h1 className="text-2xl font-bold">Student Dashboard</h1>
-          <p className="text-blue-100 text-sm mt-1">Manage your academic journey</p>
+          <h1 className="text-2xl font-bold">Employee Dashboard</h1>
+          <p className="text-blue-100 text-sm mt-1">Manage your Account</p>
         </div>
       </header>
 

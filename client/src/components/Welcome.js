@@ -1,6 +1,7 @@
 // Profile.jsx
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import PunchInOut from './PunchInOut';
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -40,6 +41,7 @@ export default function Profile() {
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4">Profile</h1>
+      <PunchInOut/>
 
       {error && <p className="text-red-500">{error}</p>}
       {msg && <p className="text-green-700">{msg}</p>}
